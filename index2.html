@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Navigation حرفه‌ای با Dark Mode و Offcanvas روشن پیش‌فرض</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+  
+  <style>
+    body {
+        font-family: Vazirmatn, sans-serif;
+      background-color: #f8f9fa;
+      color: #212529;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .navbar, .dropdown-menu {
+      background-color: #ffffff;
+      transition: background-color 0.3s;
+    }
+
+    /* Offcanvas پس‌زمینه روشن پیش‌فرض */
+    .offcanvas {
+      background-color: #ffffff !important;
+      color: #212529;
+      transition: background-color 0.3s, color 0.3s;
+      backdrop-filter: none !important;
+    }
+
+    .nav-link, .dropdown-item, .navbar-brand {
+      color: #212529 !important;
+      transition: color 0.3s;
+    }
+
+    .nav-link:hover, .dropdown-item:hover {
+      color: #0d6efd !important;
+    }
+
+    .nav-link {
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background-color: #0d6efd;
+      transition: all 0.3s ease-in-out;
+      transform: translateX(-50%);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .dropdown-menu {
+      display: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .dropdown-toggle::after {
+      display: none;
+    }
+
+    .dropdown-toggle .fa-chevron-down {
+      margin-right: 5px;
+      font-size: 0.8rem;
+    }
+
+    .offcanvas .nav-link {
+      padding: 10px 20px;
+    }
+
+    @media (max-width: 991px) {
+      .dropdown-menu {
+        position: static !important;
+        transform: none !important;
+        opacity: 1 !important;
+        display: none;
+      }
+
+      .dropdown.open .dropdown-menu {
+        display: block;
+      }
+    }
+
+    /* تم تیره */
+    .dark-mode {
+      background-color: #121212;
+      color: white;
+    }
+
+    .dark-mode .navbar,
+    .dark-mode .offcanvas,
+    .dark-mode .dropdown-menu {
+      background-color: #1e1e1e !important;
+    }
+
+    /* Offcanvas در حالت دارک مود */
+    .dark-mode .offcanvas {
+      color: #f1f1f1 !important;
+      backdrop-filter: blur(10px);
+    }
+
+    .dark-mode .nav-link,
+    .dark-mode .dropdown-item,
+    .dark-mode .navbar-brand {
+      color: white !important;
+    }
+
+    /* متن آیتم‌های offcanvas در حالت دارک مود روشن */
+    .dark-mode .offcanvas .nav-link,
+    .dark-mode .offcanvas .dropdown-item {
+      color: #f1f1f1 !important;
+    }
+
+    .dark-mode .offcanvas .nav-link:hover,
+    .dark-mode .offcanvas .dropdown-item:hover {
+      color: #0d6efd !important;
+    }
+
+    .dark-mode .nav-link:hover,
+    .dark-mode .dropdown-item:hover {
+      color: #0d6efd !important;
+    }
+
+    .btn-theme {
+      font-size: 1.2rem;
+      color: #ffc107;
+      background: transparent;
+      border: none;
+    }
+
+    .btn-theme:hover {
+      color: #fd7e14;
+    }
+
+    /* آیکون همبرگری در دارک مود */
+    .dark-mode .navbar-toggler-icon {
+      filter: invert(1);
+    }
+
+    /* Offcanvas سفارشی با blur و افکت اسلایدی از راست */
+    .custom-offcanvas {
+      transition: transform 0.4s ease-in-out;
+      backdrop-filter: none;
+      background-color: #ffffff;
+    }
+
+    .dark-mode .custom-offcanvas {
+      backdrop-filter: blur(10px);
+      background-color: rgba(30, 30, 30, 0.85);
+    }
+
+    /* زمانی که offcanvas باز است */
+    body.offcanvas-open::before {
+      content: '';
+      position: fixed;
+      top: 0; right: 0; bottom: 0; left: 0;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(6px);
+      z-index: 1040;
+      transition: all 0.3s ease-in-out;
+    }
+
+    body.offcanvas-open {
+      overflow: hidden;
+    }
+.me-200{
+    margin-left: 400px;
+}
+@media screen and (max-width:1030px){
+    .me-200{
+         margin-left: 0;
+    }
+}
+    .hero-header {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    min-height: 350px;
+    background-image: linear-gradient(
+        rgba(0, 0, 0, 0.5), 
+        rgba(0, 0, 0, 0.5)
+      ),
+      url('img/videos/spec.jpg');
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+  }
+
+  .hero-content {
+    max-width: 600px;
+    background: rgba(217, 217, 217, 0.4);
+    backdrop-filter: blur(5px);
+  }
+
+  .hero-title {
+    font-weight: 700;
+    font-size: 2.8rem;
+    line-height: 1.2;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
+
+  .hero-btn {
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 30px;
+    transition: background-color 0.3s ease;
+  }
+
+  .hero-btn:hover {
+    background-color: #0a58ca;
+  }
+
+  /* واکنشگرایی */
+  @media (max-width: 767px) {
+    .hero-header {
+      height: 50vh;
+      min-height: 300px;
+    }
+    .hero-title {
+      font-size: 1.9rem;
+    }
+    .hero-subtitle {
+      font-size: 1rem;
+    }
+    .hero-content {
+      padding: 2rem 1.5rem;
+    }
+
+  }
+   /* دایره استوری */
+   .stories-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin: 2rem 0;
+    }
+
+    .story-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid #0d6efd;
+      padding: 3px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .story-circle img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .story-circle:hover, .story-circle.active {
+      transform: scale(1.1);
+      box-shadow: 0 0 12px #0d6efd;
+    }
+
+    /* لایت‌باکس */
+    .lightbox-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1050;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .lightbox-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox-content {
+      background: white;
+      max-width: 400px;
+      width: 90%;
+      padding: 30px 25px;
+      border-radius: 15px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      color: #212529;
+    }
+
+    /* حالت دارک مود */
+    .dark-mode .lightbox-content {
+      background: #222;
+      color: #eee;
+    }
+
+    .review-img-wrapper {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 15px auto;
+      overflow: hidden;
+      border-radius: 50%;
+      border: 3px solid #0d6efd;
+    }
+
+    .review-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 28px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: #666;
+      transition: color 0.3s ease;
+    }
+
+    .lightbox-close:hover {
+      color: #0d6efd;
+    }
+
+    #lightboxReviewText {
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+    /* بلاگ */
+    .card-img-top {
+      height: 180px;
+      object-fit: cover;
+      position: relative;
+    }
+    .badge-date {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #0d6efd;
+      color: white;
+      font-weight: 600;
+      padding: 0.35em 0.65em;
+      border-radius: 0.5rem;
+      font-size: 0.85rem;
+      z-index: 10;
+      box-shadow: 0 0 6px rgba(13, 110, 253, 0.7);
+    }
+    .card-footer {
+      background: transparent;
+      border-top: 1px solid #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    .author-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .author-info img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #0d6efd;
+    }
+    .stats {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .stats span {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      color: #0d6efd;
+      font-weight: 600;
+    }
+    .stats span i {
+      font-size: 1.1rem;
+    }
+    /* متن خلاصه کارت - حداکثر 2 خط با سه نقطه */
+    .card-text {
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+      min-height: 3em;
+    }
+    img-fluid {
+      cursor: pointer;
+      object-fit: cover;
+      height: 100%;
+    }
+    .gallery-row > div {
+      height: 250px;
+    }
+    @media (min-width: 768px) {
+      .gallery-row > div {
+        height: 300px;
+      }
+    }
+
+    .parallax-wrapper {
+      /* تصویر پس‌زمینه پارالکس */
+      background-image: url('img/header/bg-header.jpg');
+      height: 100vh;
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0px;
+ 
+    }
+    .form-container {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    @media (prefers-color-scheme: dark) {
+      .form-container {
+        background: rgba(30,30,30,0.85);
+        color: #f0f0f0;
+      }
+      .form-control {
+        background: #444;
+        color: #eee;
+        border-color: #666;
+      }
+      .form-control::placeholder {
+        color: #bbb;
+      }
+      .btn-primary {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+      }
+    }
+    .tarik{
+        background-color: rgba(0,0,0,0.7);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        margin: 0;
+        direction: rtl;
+        
+    }
+
+    .footer-section {
+    background-color: #f8f9fa;
+    color: #333;
+
+  }
+
+  .footer-section a {
+    color: inherit;
+  }
+
+  .dark-mode .footer-section {
+    background-color: #222;
+    color: #eee;
+  }
+
+  .dark-mode .footer-section a {
+    color: #bbb;
+  }
+
+  .transition-all {
+    transition: all 0.4s ease-in-out;
+}
+.wave-separator svg {
+  display: block;
+  height: 80px;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .wave-light {
+  display: none;
+}
+
+body.dark-mode .wave-dark {
+  display: block !important;
+}
+
+body:not(.dark-mode) .wave-dark {
+  display: none !important;
+}
+.text-right{
+    text-align: right !important;
+}
+
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light px-3">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="img/header/logo.png" alt="">
+      </a>
+
+      <!-- آیکون تغییر تم -->
+        <button id="themeToggle" class="btn-theme ms-2 m-lg-auto" title="تغییر تم">
+            <i id="themeIcon" class="fas fa-moon me-200"></i> تم تاریک/روشن
+          </button>
+
+      <!-- آیکون همبرگر -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse d-none d-lg-block">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="#">خانه</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#">
+              <i class="fa-solid fa-chevron-down"></i> خدمات
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">طراحی وب</a></li>
+              <li><a class="dropdown-item" href="#">سئو</a></li>
+              <li><a class="dropdown-item" href="#">اپ موبایل</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="#">درباره ما</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">تماس با ما</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- منوی موبایل -->
+  <div class="offcanvas offcanvas-end custom-offcanvas" tabindex="-1" id="mobileMenu">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">منو</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" href="#">خانه</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#">
+            <i class="fa-solid fa-chevron-down"></i> خدمات
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">طراحی وب</a></li>
+            <li><a class="dropdown-item" href="#">سئو</a></li>
+            <li><a class="dropdown-item" href="#">اپ موبایل</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="#">درباره ما</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">تماس با ما</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="hero-header d-flex align-items-center justify-content-center text-center">
+    <div class="hero-content p-4 rounded">
+      <h1 class="hero-title mb-3">ارتقاء کسب‌وکار شما با راهکارهای نوین</h1>
+      <p class="hero-subtitle mb-4">ما به شما کمک می‌کنیم تا در دنیای دیجیتال بدرخشید</p>
+      <a href="#contact" class="btn btn-primary btn-lg hero-btn">همین حالا شروع کن</a>
+    </div>
+  </section>
+
+  <section class="user-stories container my-5">
+    <h2 class="mb-4 text-center">نظرات کاربران ما</h2>
+    <div class="stories-wrapper">
+      <div class="story-circle" data-user="0">
+        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="کاربر 1" />
+      </div>
+      <div class="story-circle" data-user="1">
+        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="کاربر 2" />
+      </div>
+      <div class="story-circle" data-user="2">
+        <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="کاربر 3" />
+      </div>
+      <div class="story-circle" data-user="3">
+        <img src="https://randomuser.me/api/portraits/men/33.jpg" alt="کاربر 4" />
+      </div>
+      <div class="story-circle" data-user="4">
+        <img src="https://randomuser.me/api/portraits/women/54.jpg" alt="کاربر 5" />
+      </div>
+      <div class="story-circle" data-user="5">
+        <img src="https://randomuser.me/api/portraits/men/71.jpg" alt="کاربر 6" />
+      </div>
+    </div>
+  </section>
+  
+  <!-- لایت‌باکس مودال -->
+  <div id="reviewLightbox" class="lightbox-overlay">
+    <div class="lightbox-content">
+      <button class="lightbox-close" aria-label="بستن پنجره">&times;</button>
+      <div class="review-img-wrapper mb-3">
+        <img src="" alt="تصویر کاربر" id="lightboxUserImg" />
+      </div>
+      <p id="lightboxReviewText"></p>
+    </div>
+  </div>
+  
+  <!-- بلاگ -->
+  <div class="container my-5">
+    <h2 class="mb-4 text-center">بلاگ ما</h2>
+    <div id="blogCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+      <div class="carousel-inner">
+        <!-- اسلایدهای کاروسل اینجا توسط JS ساخته میشن -->
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#blogCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">قبلی</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#blogCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">بعدی</span>
+      </button>
+    </div>
+  </div>
+
+
+  <div class="container my-5">
+    <div class="row g-2 gallery-row">
+      <div class="col-12 col-md-6">
+        <img src="https://picsum.photos/600/400" class="img-fluid rounded w-100 h-100" alt="big" data-bs-toggle="modal" data-bs-target="#carouselModal" data-slide-to="0" />
+      </div>
+      <div class="col-6 col-md-3">
+        <img src="https://picsum.photos/300/200" class="img-fluid rounded w-100 h-100" alt="small1" data-bs-toggle="modal" data-bs-target="#carouselModal" data-slide-to="1" />
+      </div>
+      <div class="col-6 col-md-3">
+        <img src="https://picsum.photos/300/200?2" class="img-fluid rounded w-100 h-100" alt="small2" data-bs-toggle="modal" data-bs-target="#carouselModal" data-slide-to="2" />
+      </div>
+      <div class="col-6 col-md-3">
+        <img src="https://picsum.photos/300/200" class="img-fluid rounded w-100 h-100" alt="small1" data-bs-toggle="modal" data-bs-target="#carouselModal" data-slide-to="1" />
+      </div>
+      <div class="col-6 col-md-3">
+        <img src="https://picsum.photos/300/200?2" class="img-fluid rounded w-100 h-100" alt="small2" data-bs-toggle="modal" data-bs-target="#carouselModal" data-slide-to="2" />
+      </div>
+      <div class="col-12 col-md-6 ">
+        <img src="https://picsum.photos/600/250?3" class="img-fluid rounded w-100 h-100" alt="wide" data-bs-toggle="modal" data-bs-target="#carouselModal" data-slide-to="3" />
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal with Carousel -->
+  <div class="modal fade" id="carouselModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content bg-transparent border-0 position-relative">
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
+          <div class="carousel-inner rounded">
+            <div class="carousel-item active">
+              <img src="https://picsum.photos/600/400" class="d-block w-100 rounded" alt="slide1" />
+            </div>
+            <div class="carousel-item">
+              <img src="https://picsum.photos/300/200" class="d-block w-100 rounded" alt="slide2" />
+            </div>
+            <div class="carousel-item">
+              <img src="https://picsum.photos/300/200?2" class="d-block w-100 rounded" alt="slide3" />
+            </div>
+            <div class="carousel-item">
+              <img src="https://picsum.photos/600/250?3" class="d-block w-100 rounded" alt="slide4" />
+            </div>
+        
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">قبلی</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">بعدی</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="parallax-wrapper">
+    <div class="tarik">
+        <form class="form-container needs-validation" novalidate>
+            <h3 class="mb-4 text-center">عضویت در خبرنامه</h3>
+            <div class="mb-3">
+              <label for="email" class="form-label">ایمیل شما</label>
+              <input type="email" class="form-control" id="email" placeholder="example@email.com" required />
+              <div class="invalid-feedback">لطفاً یک ایمیل معتبر وارد کنید.</div>
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">شماره تماس</label>
+              <input type="tel" class="form-control" id="phone" placeholder="09xxxxxxxxx" pattern="09[0-9]{9}" required />
+              <div class="invalid-feedback">لطفاً شماره تماس صحیح وارد کنید (با 09 شروع شود).</div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">ثبت نام</button>
+          </form>
+    </div>
+  </div>
+
+  
+  <footer class="footer-section pt-5 pb-4 transition-all">
+    <div class="container text-md-start">
+      <div class="row text-end">
+  
+        <!-- ستونی اول: لوگو و شعار -->
+        <div class="col-12 col-md-6 col-lg-3 mb-4 text-right">
+          <img src="img/header/logo.png" alt="لوگو" class="mb-3">
+          <p class="small">ما آینده را با فناوری می‌سازیم. به ما بپیوندید!</p>
+        </div>
+  
+        <!-- ستون دوم: لینک‌های مفید -->
+        <div class="col-6 col-md-6 col-lg-3 mb-4">
+          <h6 class="fw-bold mb-3 text-right">لینک‌های مفید</h6>
+          <ul class="list-unstyled text-right">
+            <li><a href="#" class="text-decoration-none d-block mb-1"><i class="fas fa-angle-left ms-2"></i> درباره ما</a></li>
+            <li><a href="#" class="text-decoration-none d-block mb-1"><i class="fas fa-angle-left ms-2"></i> خدمات</a></li>
+            <li><a href="#" class="text-decoration-none d-block mb-1"><i class="fas fa-angle-left ms-2"></i> تماس با ما</a></li>
+            <li><a href="#" class="text-decoration-none d-block mb-1"><i class="fas fa-angle-left ms-2"></i> سوالات متداول</a></li>
+          </ul>
+        </div>
+  
+        <!-- ستون سوم: تماس و شبکه‌ها -->
+        <div class="col-6 col-md-6 col-lg-3 mb-4 text-right   ">
+          <h6 class="fw-bold mb-3">تماس با ما</h6>
+          <p class="mb-1 "> تهران، خیابان آزادی<i class="fas fa-map-marker-alt me-2"></i></p>
+          <p class="mb-1"> 021-12345678<i class="fas fa-phone me-2"></i></p>
+          <p class="mb-3"> info@example.com<i class="fas fa-envelope me-2"></i></p>
+          <div class="d-flex gap-3 justify-content-end">
+            <a href="#" class="text-decoration-none "><i class="fab fa-telegram fa-lg "></i></a>
+            <a href="#" class="text-decoration-none"><i class="fab fa-instagram fa-lg"></i></a>
+            <a href="#" class="text-decoration-none"><i class="fab fa-linkedin fa-lg"></i></a>
+            <a href="#" class="text-decoration-none"><i class="fab fa-twitter fa-lg"></i></a>
+          </div>
+        </div>
+  
+        <!-- ستون چهارم: نقشه -->
+        <div class="col-12 col-md-6 col-lg-3 mb-4">
+          <h6 class="fw-bold mb-3 text-right">موقعیت ما</h6>
+          <div class="ratio ratio-4x3 rounded overflow-hidden">
+            <iframe src="https://maps.google.com/maps?q=tehran&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                    width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+    <div class="text-center pt-3 border-top mt-4 small">
+      © ۲۰۲۵ تمامی حقوق محفوظ است | طراحی شده با ❤️ توسط تیم شما
+    </div>
+  </footer>
+
+  <!-- اسکریپت‌ها -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const toggleButton = document.getElementById("themeToggle");
+    const icon = document.getElementById("themeIcon");
+    const body = document.body;
+
+    function setTheme(mode) {
+      if (mode === 'dark') {
+        body.classList.add('dark-mode');
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+      } else {
+        body.classList.remove('dark-mode');
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      }
+      localStorage.setItem('theme', mode);
+    }
+
+    toggleButton.addEventListener('click', () => {
+      const isDark = body.classList.contains('dark-mode');
+      setTheme(isDark ? 'light' : 'dark');
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      setTheme(savedTheme);
+    });
+
+    // زیرمنو موبایل
+    document.querySelectorAll('.offcanvas .dropdown-toggle').forEach(el => {
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        el.parentElement.classList.toggle('open');
+      });
+    });
+
+    // Blur پس‌زمینه هنگام باز بودن منو
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenu.addEventListener('show.bs.offcanvas', () => {
+      document.body.classList.add('offcanvas-open');
+    });
+    mobileMenu.addEventListener('hidden.bs.offcanvas', () => {
+      document.body.classList.remove('offcanvas-open');
+    });
+  </script>
+ <script>
+    const userReviews = [
+      {
+        img: "https://randomuser.me/api/portraits/women/68.jpg",
+        text: "این سایت واقعا به کسب‌وکار من کمک کرده است. خدمات بسیار حرفه‌ای و پشتیبانی عالی دارند!",
+      },
+      {
+        img: "https://randomuser.me/api/portraits/men/45.jpg",
+        text: "کیفیت خدمات بی‌نظیر است و طراحی سایت به شکلی ساده و زیبا انجام شد.",
+      },
+      {
+        img: "https://randomuser.me/api/portraits/women/12.jpg",
+        text: "پشتیبانی سریع و دلسوزانه، همیشه پاسخگو بودند و مشکلات من را حل کردند.",
+      },
+      {
+        img: "https://randomuser.me/api/portraits/men/33.jpg",
+        text: "تجربه کاربری بسیار خوب و طراحی واکنش‌گرا، باعث شد مشتریان بیشتری جذب کنم.",
+      },
+      {
+        img: "https://randomuser.me/api/portraits/women/54.jpg",
+        text: "با استفاده از این خدمات توانستم فروش خود را دو برابر کنم، بسیار ممنونم!",
+      },
+      {
+        img: "https://randomuser.me/api/portraits/men/71.jpg",
+        text: "پیشنهاد می‌کنم به همه کسب‌وکارها، تجربه‌ای عالی و کارآمد.",
+      },
+    ];
+  
+    const circles = document.querySelectorAll('.story-circle');
+    const lightbox = document.getElementById('reviewLightbox');
+    const lightboxImg = document.getElementById('lightboxUserImg');
+    const lightboxText = document.getElementById('lightboxReviewText');
+    const closeBtn = document.querySelector('.lightbox-close');
+  
+    // ابتدا لایت‌باکس رو مخفی کن
+    lightbox.style.display = 'none';
+  
+    function openLightbox(index) {
+      lightboxImg.src = userReviews[index].img;
+      lightboxText.textContent = userReviews[index].text;
+      lightbox.style.display = 'flex'; 
+      setTimeout(() => lightbox.classList.add('show'), 10); // تریگر انیمیشن
+      document.body.style.overflow = 'hidden'; // جلوگیری از اسکرول پس‌زمینه
+    }
+  
+    function closeLightbox() {
+      lightbox.classList.remove('show');
+      setTimeout(() => lightbox.style.display = 'none', 300); // بعد انیمیشن مخفی کن
+      document.body.style.overflow = ''; // فعال کردن اسکرول مجدد
+    }
+  
+    circles.forEach((circle, idx) => {
+      circle.addEventListener('click', () => openLightbox(idx));
+    });
+  
+    closeBtn.addEventListener('click', closeLightbox);
+  
+    // بستن لایت‌باکس با کلیک روی پس‌زمینه
+    lightbox.addEventListener('click', (e) => {
+      if(e.target === lightbox) closeLightbox();
+    });
+  
+    // بستن با کلید Esc
+    document.addEventListener('keydown', (e) => {
+      if(e.key === "Escape" && lightbox.classList.contains('show')) {
+        closeLightbox();
+      }
+    });
+  </script>
+
+<script>
+    // داده‌های فرضی کارت‌ها
+    const blogPosts = [
+      {
+        title: "راهنمای کامل طراحی وب‌سایت مدرن",
+        summary: "در این مقاله به بررسی اصول طراحی وب‌سایت‌های مدرن و نکات مهم آن می‌پردازیم.",
+        image: "https://randomuser.me/api/portraits/men/21.jpg",
+        authorImg: "https://randomuser.me/api/portraits/men/21.jpg",
+        views: 345,
+        likes: 76,
+        date: "۱۴۰۳/۰۳/۲۵",
+      },
+      {
+        title: "بهینه‌سازی سرعت سایت چگونه انجام شود؟",
+        summary: "افزایش سرعت بارگذاری سایت می‌تواند به بهبود تجربه کاربری و سئو کمک کند.",
+        image: "https://randomuser.me/api/portraits/women/44.jpg",
+        authorImg: "https://randomuser.me/api/portraits/women/44.jpg",
+        views: 289,
+        likes: 120,
+        date: "۱۴۰۳/۰۳/۲۸",
+      },
+      {
+        title: "استراتژی‌های محتوا برای جذب مخاطب",
+        summary: "محتوا پادشاه است! در این مقاله به بهترین استراتژی‌های تولید محتوا می‌پردازیم.",
+        image: "https://randomuser.me/api/portraits/men/32.jpg",
+        authorImg: "https://randomuser.me/api/portraits/men/32.jpg",
+        views: 430,
+        likes: 210,
+        date: "۱۴۰۳/۰۳/۲۰",
+      },
+      {
+        title: "طراحی واکنش‌گرا و اهمیت آن",
+        summary: "با توجه به استفاده گسترده موبایل، طراحی واکنش‌گرا برای سایت‌ها حیاتی است.",
+        image: "https://randomuser.me/api/portraits/women/30.jpg",
+        authorImg: "https://randomuser.me/api/portraits/women/30.jpg",
+        views: 390,
+        likes: 180,
+        date: "۱۴۰۳/۰۳/۲۲",
+      },
+      {
+        title: "معرفی فریم‌ورک‌های محبوب فرانت‌اند",
+        summary: "آشنایی با بهترین فریم‌ورک‌های فرانت‌اند و مقایسه آنها برای انتخاب بهتر.",
+        image: "https://randomuser.me/api/portraits/men/10.jpg",
+        authorImg: "https://randomuser.me/api/portraits/men/10.jpg",
+        views: 320,
+        likes: 150,
+        date: "۱۴۰۳/۰۳/۲۴",
+      },
+      {
+        title: "چگونه یک بلاگ موفق راه‌اندازی کنیم؟",
+        summary: "مراحل اصلی و نکات کلیدی برای شروع و موفقیت در بلاگینگ را بررسی می‌کنیم.",
+        image: "https://randomuser.me/api/portraits/women/55.jpg",
+        authorImg: "https://randomuser.me/api/portraits/women/55.jpg",
+        views: 410,
+        likes: 190,
+        date: "۱۴۰۳/۰۳/۲۶",
+      },
+    ];
+  
+    const carouselInner = document.querySelector(".carousel-inner");
+  
+    // تابع ساخت اسلایدها (هر اسلاید شامل 3 کارت)
+    function createSlides(posts) {
+      const slides = [];
+      for(let i = 0; i < posts.length; i += 3) {
+        const chunk = posts.slice(i, i + 3);
+        let activeClass = i === 0 ? "active" : "";
+  
+        const cardsHTML = chunk.map(post => `
+          <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+              <div class="position-relative">
+                <img src="${post.image}" class="card-img-top" alt="${post.title}">
+                <span class="badge-date">${post.date}</span>
+              </div>
+              <div class="card-body d-flex flex-column">
+                <h5 class="card-title">${post.title}</h5>
+                <p class="card-text">${post.summary}</p>
+              </div>
+              <div class="card-footer">
+                <div class="author-info">
+                  <img src="${post.authorImg}" alt="نویسنده" />
+                  <span>نویسنده</span>
+                </div>
+                <div class="stats">
+                  <span><i class="fa-regular fa-eye"></i> ${post.views}</span>
+                  <span><i class="fa-regular fa-heart"></i> ${post.likes}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        `).join("");
+  
+        slides.push(`
+          <div class="carousel-item ${activeClass}">
+            <div class="row gx-3">
+              ${cardsHTML}
+            </div>
+          </div>
+        `);
+      }
+      return slides.join("");
+    }
+  
+    carouselInner.innerHTML = createSlides(blogPosts);
+  </script>
+  <script>
+    const carouselModal = document.getElementById('carouselModal');
+    const carousel = document.getElementById('carouselExampleIndicators');
+    carouselModal.addEventListener('show.bs.modal', event => {
+      const clickedImg = event.relatedTarget;
+      const slideTo = clickedImg.getAttribute('data-slide-to');
+      const bsCarousel = bootstrap.Carousel.getInstance(carousel) || new bootstrap.Carousel(carousel, { interval: false, ride: false });
+      bsCarousel.to(slideTo);
+    });
+  </script>
+
+<script>
+    // Bootstrap validation
+    (() => {
+      'use strict';
+      const forms = document.querySelectorAll('.needs-validation');
+      Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    })();
+  </script>
+
+  
+</body>
+</html>
